@@ -1,0 +1,159 @@
+LINKED LIST PROBLEMSReverse Linked List
+
+1)Remove Linked List Elements
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def removeElements(self, head: Optional[ListNode], val: int) -> Optional[ListNode]:
+        t=ListNode(0)
+        t.next=head
+        p=t
+        curr=head
+        while curr:
+            if curr.val==val:
+                p.next=curr.next
+            else:
+                p=curr
+            curr=curr.next
+        return t.next
+
+2)Reverse Linked List
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        p=None
+        while head:
+            c=head
+            head=head.next
+            c.next=p
+            p=c
+        return p
+        
+3)Middle of the Linked List
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        slow=fast=head
+        while fast and fast.next:
+            slow=slow.next
+            fast=fast.next.next
+            
+        return slow
+
+4)Delete Node in a Linked List
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def deleteNode(self, node):
+        node.val=node.next.val
+        node.next=node.next.next
+        """
+        :type node: ListNode
+        :rtype: void Do not return anything, modify node in-place instead.
+        """
+
+5)Odd Even Linked List
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def oddEvenList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        d1=odd=ListNode(0)
+        d2=even=ListNode(1)
+        t=head
+        i=0
+        while t:
+            if(i%2==0):
+                even.next=t
+                even=even.next
+            else:
+                odd.next=t
+                odd=odd.next
+            t=t.next
+            i+=1
+        odd.next=None
+        even.next=d1.next
+        return d2.next
+        
+
+6) Rotate List
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        if head==None or head.next==None or k==0:
+            return head
+        length=1
+        curr=head
+        while curr.next:
+            curr=curr.next
+            length+=1
+        curr.next=head
+        k%=length
+        rotate=length-k
+        while rotate:
+            curr=curr.next
+            rotate-=1
+        head=curr.next
+        curr.next=None
+        return head
+
+7)Partition List
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:
+        d1=ListNode(0)
+        front=d1
+        d2=ListNode(0)
+        back=d2
+        while head!=None:
+            if head.val<x:
+                front.next=head
+                front=front.next
+            else:
+                back.next=head
+                back=back.next
+            head=head.next
+        back.next=None
+        front.next=d2.next
+        return d1.next
+       
+
+
+    
+
+
+
+  
+
