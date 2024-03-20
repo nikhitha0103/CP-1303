@@ -1,0 +1,101 @@
+1)Construct Binary Tree from Preorder and Inorder Traversal
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        if not preorder and not inorder:
+            return None
+        root=TreeNode()
+        root.val=preorder[0]
+        mid=inorder.index(root.val)
+        root.left=self.buildTree(preorder[1:mid+1],inorder[0:mid])
+        root.right=self.buildTree(preorder[mid+1:],inorder[mid+1:])
+        return root
+
+
+2)Construct Binary Tree from Inorder and Postorder Traversal
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        if not postorder and not inorder:
+            return None
+        root=TreeNode()
+        root.val=postorder[-1]
+        mid=inorder.index(root.val)
+        root.left=self.buildTree(inorder[:mid],postorder[:mid])
+        root.right=self.buildTree(inorder[mid+1:],postorder[mid:-1])
+        return root
+      
+3)Convert Sorted Array to Binary Search Tree
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
+        if not nums:
+            return None
+        mid=len(nums)//2
+        root=TreeNode(nums[mid])
+        root.left=self.sortedArrayToBST(nums[:mid])
+        root.right=self.sortedArrayToBST(nums[mid+1:])
+        return root
+
+4)Convert Sorted List to Binary Search Tree
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sortedListToBST(self, head: Optional[ListNode]) -> Optional[TreeNode]:
+        if not head:
+            return None
+        def find_middle(s,t):
+            sl=f=s
+            while f!=t and f.next!=t:
+                sl=sl.next
+                f=f.next.next
+            return sl
+        def convert_to_bst(s,t):
+            if s==t:
+                return None
+            middle=find_middle(s,t)
+            root=TreeNode(middle.val)
+            root.left=convert_to_bst(s,middle)
+            root.right=convert_to_bst(middle.next,t)    
+            return root
+        return convert_to_bst(head,None)
+
+5)Maximum Sum Circular Subarray
+class Solution:
+    def maxSubarraySumCircular(self, nums: List[int]) -> int:
+        def kadane(nums):
+            mc=mg=nums[0]
+            for i in range(1,len(nums)):
+                mc=max(nums[i],mc+nums[i])
+                mg=max(mg,mc)
+            return mg
+        max_linear=kadane(nums)
+        total_sum=sum(nums)
+        max_wrap=total_sum+kadane([-x for x in nums])
+        return max(max_linear,max_wrap)if max_wrap!=0 else max_linear
+
