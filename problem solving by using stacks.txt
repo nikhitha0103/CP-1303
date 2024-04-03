@@ -1,0 +1,86 @@
+1)Daily Temperatures
+class Solution:
+    def dailyTemperatures(self, t: List[int]) -> List[int]:
+        s=[]
+        res=[0]*len(t)
+        for i in range(len(t)-1,-1,-1):
+            while s and t[s[-1]]<=t[i]:
+                s.pop()
+            res[i]=0 if len(s)==0 else s[-1]-i
+            s.append(i)
+        return res
+ 
+
+2)NEXT GREATER ELEMENT I
+class Solution:
+    def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        s=[]
+        for i in nums1:
+            c=0
+            for j in range(nums2.index(i),len(nums2)):
+                if(nums2[j]>i):
+                    s.append(nums2[j])
+                    c+=1
+                    break
+            if(c==0):
+                s.append(-1)          
+        return s
+
+3)BASEBALL GAME
+class Solution:
+    def calPoints(self,o : List[str]) -> int:
+        s=[]
+        for i in o:
+            if i=="C":
+                spop(-1)
+            elif i=="D":
+                s.append(s[-1]*2)
+            elif i=="+":
+                s.append(s[-1]+s[-2])
+            else:
+                s.append(int(i))
+        return sum(s)        
+
+4)THE NUMBER OF WEAK CHARACTERS IN THE GAME
+class Solution:
+    def numberOfWeakCharacters(self, p: List[List[int]]) -> int:
+        p.sort(key=lambda x:(-x[0],x[-1]))
+        m=w=0
+        for a,d in p:
+            if d<m:
+                w+=1
+            else:
+                m=d
+        return w
+            
+     
+5)NO.OF VISIBLE PEOPLE IN A QUEUE
+class Solution:
+    def canSeePersonsCount(self, heights: List[int]) -> List[int]:
+        s=[]
+        res=[1]*len(heights)
+        for i in range(len(heights)-1,-1,-1):
+            c=0
+            while s and heights[s[-1]]<heights[i]:
+                s.pop()
+                c+=1
+            if s:
+                res[i]+=c
+            else:
+                res[i]=c
+            s.append(i)
+       
+        return res
+
+6)ISOMORPHIC STRINGS
+class Solution:
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        l1=[]
+        l2=[]
+        for i in s:
+            l1.append(s.index(i))
+        for i in t:
+            l2.append(t.index(i))
+        if(l1==l2):
+            return True
+        return False
